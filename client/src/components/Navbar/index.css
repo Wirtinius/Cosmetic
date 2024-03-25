@@ -1,0 +1,42 @@
+/* LINKS */
+.link-underline {
+    padding-bottom: 35px;
+    border-bottom-width: 0;
+    background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+    background-size: 0 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .2s ease-in-out;
+}
+
+.link-underline-black {
+    background-image: linear-gradient(transparent, transparent), linear-gradient(#F2C, #F2C)
+}
+
+.link-underline:hover {
+    margin-bottom: 50px;
+    background-size: 100% 3px;
+    background-position: 0 100%
+}
+
+/* ADMIN LINKS */
+
+.admin-link-underline {
+    padding-bottom: 27px;
+    border-bottom-width: 0;
+    background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+    background-size: 0 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .2s ease-in-out;
+}
+
+.admin-link-underline-black {
+    background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff)
+}
+
+.admin-link-underline:hover {
+    margin-bottom: 50px;
+    background-size: 100% 3px;
+    background-position: 0 100%
+}
