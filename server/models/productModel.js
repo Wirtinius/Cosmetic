@@ -14,8 +14,8 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
-    },
+        ref: 'Brand'
+      },
     image: {
         type: String,
     },
@@ -26,10 +26,10 @@ const productSchema = new mongoose.Schema({
     rating: {
         type: Number,
     },
-    brand: [{
+    brand: {
         type: String,
         ref: 'Brand'
-      }],
+      },
     // numReviews: {
     //     type: Number,
     //     required: true,

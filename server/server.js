@@ -5,9 +5,13 @@ const multer = require('multer');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+
 const userRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
 const cartRouter = require('./routes/cartRoutes');
+const brandRouter = require('./routes/brandRoutes');
+const categoryRouter = require("./routes/categoryRoutes");
+
 const PORT = 3000
 
 var app = express();
@@ -36,6 +40,9 @@ app.use('/uploads', express.static('uploads'));
 app.use('/auth', userRouter);
 app.use('/product', productRouter);
 app.use('/cart', cartRouter);
+app.use('/brand', brandRouter);
+app.use('/category', categoryRouter);
+
 
 
   mongoose

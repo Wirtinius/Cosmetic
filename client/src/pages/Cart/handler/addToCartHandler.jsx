@@ -13,14 +13,23 @@ const useAddToCart = async (products) => {
             body: JSON.stringify({ products }), 
         });
 
-        if (!response.ok) {
-            throw new Error('Failed To Add To Cart');
-        }
+        const responseData = await response.json();
 
-        console.log(' Successfully Added To Cart');
-        const data = await response.json();
-        console.log(data)
-        return { success: true };
+        if (response.ok) {
+            console.log('Successfully Added To Cart');;
+            return { success: true };
+        } else {
+            if (response.status === 401) {
+                // window.location.href = "../login";
+                return { error: responseData };
+            }
+            if (response.status === 400) {
+                return { error: responseData };
+            } else {
+                console.error('Login User failed:', responseData);
+                return { error: 'Login User failed' };
+            }
+        }
         
     } catch (error) {
         console.error('Error Adding To Cart:', error);

@@ -4,6 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import getProduct from './handler/getProductHandler'
 import { useParams } from 'react-router-dom'
 import useAddToCart from '../Cart/handler/addToCartHandler'
+import {toast} from 'sonner'
 
 export function Detail() {
     const id = useParams().id
@@ -12,10 +13,10 @@ export function Detail() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const cartResult = addToCart(id);
-        if (cartResult.success) {
-            window.location.href = "./";
-        }
+        const cartResult = await addToCart(id);
+        if (cartResult.error) {
+            toast.warning('You must be logged in to add to cart.');
+        }  
     }
 
     return (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/images/logo.jpg';
+import logo from '../../assets/images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
@@ -10,55 +10,72 @@ import './index.css';
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const isAdmin = useUser().roles[0] === 'ADMIN';
-  console.log(useUser());
+  const user = useUser();
+  const isAdmin = user && user.roles && user.roles[0] === 'ADMIN'; 
+
+  console.log(isAdmin);
   const toggleDropdown = () => {
       setIsOpen(!isOpen);
   };
 
   return (
     <div>
-      <nav className='relative border-y-2 mx-0'>
+      <nav className='relative  mx-0 bg-black'>
         <div className='flex text-center justify-evenly space-x-6'>
           {/* Image */}
-          <img src={logo} alt="logo" className='w-28' />
+          <img src={logo} alt="logo" className='mt-2 mb-2 w-16' />
 
           {/* Links */}
           <div className='hidden md:flex space-x-10 my-6'>
             <Link className='group' to="/">
-              <span className='opacity-50 group-hover:opacity-100 link-underline link-underline-black text-black'>Shop</span>
+              <span className='link-underline link-underline-black text-white hover:text-pink-500'>Shop</span>
+            </Link>
+            <Link className='group' to="/brands">
+              <span className='link-underline link-underline-black text-white hover:text-pink-500'>Brands</span>
             </Link>
             <Link className='group' to="/">
-              <span className='opacity-50 group-hover:opacity-100 link-underline link-underline-black text-black'>Brands</span>
+              <span className='link-underline link-underline-black text-white hover:text-pink-500'>Sale</span>
             </Link>
             <Link className='group' to="/">
-              <span className='opacity-50 group-hover:opacity-100 link-underline link-underline-black text-black'>Sale</span>
+              <span className='link-underline link-underline-black text-white hover:text-pink-500'>Discover</span>
             </Link>
-            <Link className='group' to="/">
-              <span className='opacity-50 group-hover:opacity-100 link-underline link-underline-black text-black'>Discover</span>
-            </Link>
-            <Link className='group' to="/">
-              <span className='opacity-50 group-hover:opacity-100 link-underline link-underline-black text-black'>Beauty Services</span>
+            <Link className='group' to="/categories">
+              <span className='link-underline link-underline-black text-white hover:text-pink-500'>Categories</span>
             </Link>
             <Link className='group' to="/cart">
-              <span className='opacity-50 group-hover:opacity-100 link-underline link-underline-black text-black'>Cart</span>
+              <span className='link-underline link-underline-black text-white hover:text-pink-500'>Cart</span>
             </Link>
 
             {/* Search */}
             
           </div>
-          <div className='flex text-center'>
-            <div className='my-6 space-x-2'> 
+
+        
+
+                
+          <div className='flex text-center space-x-6'>
+            {/* <div className='my-6 space-x-2'> 
               <FontAwesomeIcon icon={faSearch} size="sm" />
               <input className='' placeholder='Search Items' type='text'></input>
-            </div>
+            </div> */}
+
+            <div class="relative h-11 w-full min-w-[200px] mt-1">
+
+                    <input placeholder=""
+                    class="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-white outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-pink-500 focus:outline-0 disabled:border-0 disabled:bg-pink-50 placeholder:opacity-0 focus:placeholder:opacity-100" />
+                    <label
+                    class="after:content[''] pointer-events-none absolute left-0  -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-pink-500 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:after:scale-x-100 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-pink-500">
+                    Search
+                    </label>
+                </div>
+
+            
 
             <div className='my-6'> 
               <div className="relative inline-block text-left">
-                  <button onClick={toggleDropdown} type="button" className=" border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-                      <FontAwesomeIcon icon={faUser} className=" h-5 w-5" />
+                  <button onClick={toggleDropdown} type="button" className=" text-sm font-medium text-gray-700 ">
+                      <FontAwesomeIcon icon={faUser} className=" h-5 w-5" style={{color: "#ffffff",}} />
                   </button>
-
                   {isOpen && (
                       <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -75,24 +92,24 @@ export function Navbar() {
       </nav>
 
       {isAdmin ? (
-      <nav className='relative mx-0 bg-pink-200'>
+      <nav className='relative mx-0 bg-pink-500'>
         <div className='flex text-center justify-evenly space-x-4 mr-14'>
 
           <div className='hidden md:flex space-x-10 my-6'>
             <Link className='group' to="/create-product">
-              <span className='admin-link-underline admin-link-underline-black text-black'>Add Product</span>
+              <span className='admin-link-underline admin-link-underline-black text-black hover:text-white'>Add Product</span>
+            </Link>
+            <Link className='group' to="/create-brand">
+              <span className='admin-link-underline admin-link-underline-black text-black hover:text-white'>Add Brand</span>
+            </Link>
+            <Link className='group' to="/create-category">
+              <span className='admin-link-underline admin-link-underline-black text-black hover:text-white'>Add Category</span>
             </Link>
             <Link className='group' to="/">
-              <span className='admin-link-underline admin-link-underline-black text-black'>Add Brand</span>
+              <span className='admin-link-underline admin-link-underline-black text-black hover:text-white'>Orders</span>
             </Link>
             <Link className='group' to="/">
-              <span className='admin-link-underline admin-link-underline-black text-black'>All Orders</span>
-            </Link>
-            <Link className='group' to="/">
-              <span className='admin-link-underline admin-link-underline-black text-black'>Current Orders</span>
-            </Link>
-            <Link className='group' to="/">
-              <span className='admin-link-underline admin-link-underline-black text-black'>All Users</span>
+              <span className='admin-link-underline admin-link-underline-black text-black hover:text-white'>All Users</span>
             </Link>
             
           </div>

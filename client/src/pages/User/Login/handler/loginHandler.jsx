@@ -14,18 +14,25 @@ const useLogin = async (username, password) => {
             body: JSON.stringify({ username, password }),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to login user');
+        const responseData = await response.json();
+
+        if (response.ok) {
+            window.localStorage.setItem('accessToken', responseData.accessToken);
+            console.log('User Login Successful');
+            window.location.href = "./";
+            return { success: true };
+        } else {
+            if (response.status === 400) {
+                return { error: responseData };
+            } else {
+                console.error('Login User failed:', responseData);
+                return { error: 'Login User failed' };
+            }
         }
 
-        const data = await response.json();
-        window.localStorage.setItem('accessToken', data.accessToken);
-        console.log('User Login Successful');
-        return { success: true };
-        
-    } catch (error) {
-        console.error('Error during user login:', error);
-    }
+        } catch (error) {
+            console.error('Error during user login:', error);
+        }
 };
 
 export default useLogin;

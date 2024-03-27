@@ -1,3 +1,5 @@
+import {toast} from 'sonner'
+
 const useCreateProduct = async (name, description, price, category, countInStock, brand, imageFile) => {
     console.log('Submitting:', {
         name,
@@ -21,15 +23,26 @@ const useCreateProduct = async (name, description, price, category, countInStock
     try {
         const response = await fetch('http://localhost:3000/product/create', {
             method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken')
+            },
             body: formData, 
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to create product');
+        if (response.ok) {
+            console.log('Product Creation Successful');
+            toast.success('Product created successfully!');
+            window.location.href = "./";
+            return { success: true };
+        } else {
+            const responseData = await response.json();
+            if (response.status === 400) {
+                return { error: responseData };
+            } else {
+                console.error('Product Creation failed:', responseData);
+                return { error: 'Product Creation failed' };
+            }
         }
-
-        console.log('Product Creation Successful');
-        return { success: true };
         
     } catch (error) {
         console.error('Error creating product:', error);

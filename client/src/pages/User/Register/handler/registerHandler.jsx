@@ -21,13 +21,20 @@ const useRegister = async (username, email, gender, password, confirmPassword) =
                     confirmPassword}),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to register user');
-        }
+        const responseData = await response.json();
 
-        const data = await response.json();
-        console.log('User Register Successful');
-        return { success: true };
+        if (response.ok) {
+            console.log('User Register Successful');
+            window.location.href = "./";
+            return { success: true };
+        } else {
+            if (response.status === 400) {
+                return { error: responseData };
+            } else {
+                console.error('Register User failed:', responseData);
+                return { error: 'Register User failed' };
+            }
+        }
         
     } catch (error) {
         console.error('Error during user register:', error);

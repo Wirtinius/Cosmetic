@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react';
 import useLogin from './handler/loginHandler';
+import {toast} from 'sonner'
 
 export function Login() {
     const [username, setUsername] = useState('');
@@ -11,9 +12,9 @@ export function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const loginResult = await login(username, password);
-        if (loginResult.success) {
-            window.location.href = "./";
-        }
+        if (loginResult.error) {
+            toast.error(loginResult.error.message || 'An error occurred while creating the brand.');
+        }   
     }
     
     return (

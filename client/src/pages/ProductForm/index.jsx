@@ -2,25 +2,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react';
 import useCreateProduct from './handler/createProductHandler';
+import useCategories from '../Category/Categories/handler/getCategoriesHandler';
+import useBrands from '../Brand/Brands/handler/getBrandsHandler';
+import {toast} from 'sonner'
 
 export function ProductForm() {
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    const [category, setCategory] = useState('');
-    const [countInStock, setCountInStock] = useState('');
-    const [brand, setBrand] = useState('');
+    const [category, setCategory] = useState();
+    const [countInStock, setCountInStock] = useState();
+    const [brand, setBrand] = useState();
     const [image, setImage] = useState('');
     const createProduct = useCreateProduct;
     
     const handleSubmit = async (e) => {
         e.preventDefault();
         const productResult = await createProduct(name, description, price, category, countInStock, brand, image);
-        if (productResult.success) {
-            window.location.href = "./";
-        }
+        if (productResult.error) {
+            toast.error(productResult.error.message || 'An error occurred while creating the product.');
+        }    
     }
     
+    
+    const categories = useCategories()
+    const brands = useBrands()
+
     return (
         <div>
             <form className="my-10 px-96 space-y-5">
@@ -55,16 +63,6 @@ export function ProductForm() {
                 </div>
 
                 <div class="relative h-11 w-full min-w-[200px]">
-                    <input placeholder="Parfume"
-                    class="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-pink-500 focus:outline-0 disabled:border-0 disabled:bg-pink-50 placeholder:opacity-0 focus:placeholder:opacity-100" 
-                    onChange={(e) => setCategory(e.target.value)}/>
-                    <label
-                    class="after:content[''] pointer-events-none absolute left-0  -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-pink-500 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-700 peer-focus:after:scale-x-100 peer-focus:after:border-pink-400 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-pink-500">
-                    Category
-                    </label>
-                </div>
-
-                <div class="relative h-11 w-full min-w-[200px]">
                     <input placeholder="1"
                     class="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-pink-500 focus:outline-0 disabled:border-0 disabled:bg-pink-50 placeholder:opacity-0 focus:placeholder:opacity-100" 
                     onChange={(e) => setCountInStock(e.target.value)}/>
@@ -74,7 +72,25 @@ export function ProductForm() {
                     </label>
                 </div>
 
-                <div class="relative h-11 w-full min-w-[200px]">
+                {/* <div class="relative h-11 w-full min-w-[200px]">
+                    <input placeholder="Parfume"
+                    class="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-pink-500 focus:outline-0 disabled:border-0 disabled:bg-pink-50 placeholder:opacity-0 focus:placeholder:opacity-100" 
+                    onChange={(e) => setCategory(e.target.value)}/>
+                    <label
+                    class="after:content[''] pointer-events-none absolute left-0  -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-pink-500 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-700 peer-focus:after:scale-x-100 peer-focus:after:border-pink-400 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-pink-500">
+                    Category
+                    </label>
+                </div> */}
+
+                <label for="underline_select" class="sr-only">Category</label>
+                <select id="underline_select" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-500  focus:outline-none focus:ring-0 focus:border-pink-500 peer">
+                    <option selected onChange={(e)=>{setCategory(e.target.value)}}>Choose a Category</option>
+                    {categories.map((category) => (
+                        <option value={category.value}>{category.value}</option>
+                    ))}
+                </select>
+
+                {/* <div class="relative h-11 w-full min-w-[200px]">
                     <input placeholder="Chanel"
                     class="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-pink-500 focus:outline-0 disabled:border-0 disabled:bg-pink-50 placeholder:opacity-0 focus:placeholder:opacity-100" 
                     onChange={(e) => setBrand(e.target.value)}/>
@@ -82,7 +98,15 @@ export function ProductForm() {
                     class="after:content[''] pointer-events-none absolute left-0  -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-pink-500 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-700 peer-focus:after:scale-x-100 peer-focus:after:border-pink-400 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-pink-500">
                     Brand
                     </label>
-                </div>
+                </div> */}
+
+                <label for="underline_select" class="sr-only">Brand</label>
+                <select onChange={(e)=>{setBrand(e.target.value)}} id="underline_select" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-500  focus:outline-none focus:ring-0 focus:border-pink-500 peer">
+                    <option selected>Choose a Brand</option>
+                    {brands.map((brand) => (
+                        <option value={brand.value}>{brand.value}</option>
+                    ))}
+                </select>
 
                 {/* Input image */}
                 <div class="flex items-center justify-center w-full">
@@ -97,12 +121,12 @@ export function ProductForm() {
                         <input id="dropzone-file" type="file" className="hidden" onChange={(e) => setImage(e.target.files[0])}/>
                     </label>
                 </div> 
+
                 <div className='text-right'>
                     <button type='submit' onClick={handleSubmit}>
                         <FontAwesomeIcon icon={faArrowRight} size="2xl" />    
                     </button>
                 </div>
-                
             </form>
         </div>
     );

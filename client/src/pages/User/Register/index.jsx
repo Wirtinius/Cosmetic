@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react';
 import useRegister from './handler/registerHandler';
+import {toast} from 'sonner'
 
 export function Register() {
     const [username, setUsername] = useState('');
@@ -14,9 +15,9 @@ export function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const registerResult = await register(username, email, gender, password, confirmPassword);
-        if (registerResult.success) {
-            window.location.href = "./login";
-        }
+        if (registerResult.error) {
+            toast.error(registerResult.error.message || 'An error occurred while registering user.');
+        } 
     }
     
     return (
