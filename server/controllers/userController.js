@@ -25,21 +25,21 @@ class userController {
     try {
         const {username, email, gender, password, confirmPassword} = req.body
         if (!username || !email || !gender || !password || !confirmPassword) {
-            return res.status(400).json({message: "All fields must be filled in"})
+            return res.status(400).json({message: "Все поля обязательны для заполнения!"})
         }
 
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-          return res.status(400).json({message: "Error while registration", errors})
+          return res.status(400).json({message: "Ошибка при регистрации", errors})
         }
 
         if (confirmPassword != password) {
-          return res.status(400).json({error: "Passwords don't match"})
+          return res.status(400).json({error: "Пароли не совпадают!"})
         }
 
         const candidate = await User.findOne({username})
         if (candidate) {
-          return res.status(400).json({message: "User with this name has already been registered!"})
+          return res.status(400).json({message: "Пользователь с таким именем уже существует!"})
         }
 
         const hashPassword = bcrypt.hashSync(password, 7);
@@ -57,17 +57,17 @@ class userController {
     try {
         const {username, password} = req.body
         if (!username || !password) {
-            return res.status(400).json({message: "All fields must be filled in"})
+            return res.status(400).json({message: "Все поля обязательны для заполнения!"})
         }
 
         const user = await User.findOne({username})
         if (!user) {
-            return res.status(400).json({message: `User ${username} not found!`})
+            return res.status(400).json({message: `Пользователя "${username}" не существует!`})
         }
 
         const validPassword = bcrypt.compareSync(password, user.password)
         if (!validPassword) {
-            return res.status(400).json({message: "Wrong password"})
+            return res.status(400).json({message: "Неправильный пароль!"})
         }
 
         const accessToken = generateTokens(user._id, user.roles, user.username)

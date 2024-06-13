@@ -6,15 +6,14 @@ class categoryController {
     try {
         const {value} = req.body;
         if (!value || !req.file) {
-          console.log("Fields must be filled in")
-            return res.status(400).json({message: "Fields must be filled in"});
+            return res.status(400).json({message: "Все поля обязательны для заполнения!"});
         }
 
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
         const category = await Category.findOne({value});
         if (category) {
-          return res.status(400).json({message: "Category with this name has already been added!"});
+          return res.status(400).json({message: "Категория с таким названием уже существует!"});
         }
 
         const newCategory = new Category({value, image: imageUrl});

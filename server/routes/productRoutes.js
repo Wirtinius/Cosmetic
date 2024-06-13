@@ -7,6 +7,9 @@ const admin = require('../middlewares/adminMiddleware');
 router.get('', productController.getProducts);
 router.get('/:id', productController.getProduct);
 router.put('/:id', admin, productController.updateProduct);
+router.get('/brand/:id', productController.getProductByBrand);
+router.get('/category/:id', productController.getProductByCategory);
+router.post('/search', productController.updateProduct);
 router.post('/create', [upload, admin], (req, res, next) => {
     productController.createProduct(req, res, next);
 });

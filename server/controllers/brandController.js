@@ -7,14 +7,14 @@ class brandController {
         const {value} = req.body;
         if (!value || !req.file) {
           console.log("Fields must be filled in")
-            return res.status(400).json({message: "Fields must be filled in"});
+            return res.status(400).json({message: "Все поля обязательны для заполнения!"});
         }
 
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
         const brand = await Brand.findOne({value});
         if (brand) {
-          return res.status(400).json({message: "Brand with this name has already been added!"});
+          return res.status(400).json({message: "Бренд с таким названием уже существует!"});
         }
 
         const newBrand = new Brand({value, image: imageUrl});
