@@ -1,17 +1,20 @@
+import {useParams} from 'react-router-dom';
+import useCategoryProduct from './handler/getProductsByCategory'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
-import './index.css'
-import useProducts from './handler/getProductsHandler'
 
-export function Home() {
-    const products = useProducts()
+export function Category () {
+
+    const id = useParams().id
+    const products = useCategoryProduct(id)
     const counts = Math.ceil(products.length / 5);
 
+    console.log(products)
     return (
         <div>
             <div className='mt-20 ml-16'>
-                <a className="text-2xl underline-title"> Свежие Товары</a>
+                <a className="text-2xl underline-title">Products By Category</a>
             </div>
             {[...Array(counts)].map((_, index) => (
                 <div key={index} className="my-10 place-content-center grid grid-flow-col gap-10">
@@ -40,7 +43,7 @@ export function Home() {
                                                 <p className='text-x'>{product.price}</p>
                                             </div>
                                             <div className=''>
-                                                <Link className='text-sm detail-underline detail-underline-black' to={`detail/${product._id}`}>Подробнее</Link>
+                                                <Link className='text-sm detail-underline detail-underline-black' to={`../detail/${product._id}`}>See Details</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -52,4 +55,7 @@ export function Home() {
             ))}
         </div>
     );
+
 }
+
+

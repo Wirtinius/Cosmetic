@@ -52,7 +52,15 @@ class userController {
       res.status(400).json({message: 'Registration error'})
     }
   }
-
+  async getAllUsers(req, res) {
+    try {
+        const users = await User.find({});
+        return res.json(users);
+    } catch (e) {
+        console.log(e);
+        res.status(400).json({ message: 'Error getting users' });
+    }
+}
   async login (req, res) {
     try {
         const {username, password} = req.body

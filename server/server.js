@@ -11,6 +11,7 @@ const productRouter = require('./routes/productRoutes');
 const cartRouter = require('./routes/cartRoutes');
 const brandRouter = require('./routes/brandRoutes');
 const categoryRouter = require("./routes/categoryRoutes");
+const orderRouter = require('./routes/orderRoutes');
 
 const PORT = 3000
 
@@ -42,7 +43,7 @@ app.use('/product', productRouter);
 app.use('/cart', cartRouter);
 app.use('/brand', brandRouter);
 app.use('/category', categoryRouter);
-
+app.use('/order', orderRouter);
 
 
   mongoose
